@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "EchoServer": {
+      "commandName": "Project",
+      "commandLineArgs": "--noHeader --response=deneme"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
