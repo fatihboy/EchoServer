@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace Enterprisecoding.EchoServer
 {
@@ -19,8 +20,11 @@ namespace Enterprisecoding.EchoServer
                         var request = context.Request;
                         var response = context.Response;
 
+                        var noHeader = Environment.GetEnvironmentVariable("REPLY_HEADERS");
+                        var responseBody = Environment.GetEnvironmentVariable("RESPONSE_BODY");
 
-                        if (!args.Any(arg => arg == "--noHeader"))
+
+                        if (string.IsNullOrWhiteSpace(noHeader))
                         {
                             foreach (var header in request.Headers)
                             {
@@ -28,15 +32,14 @@ namespace Enterprisecoding.EchoServer
                             } 
                         }
 
-                        var responseBody = args.FirstOrDefault(arg => arg.StartsWith("--response="));
-                        if (!string.IsNullOrWhiteSpace(responseBody))
+                        if (string.IsNullOrWhiteSpace(responseBody))
                         {
-                            var responseBodyBytes = Encoding.UTF8.GetBytes(responseBody.Substring(11));
-                            await response.Body.WriteAsync(responseBodyBytes);
+                            await request.Body.CopyToAsync(response.Body);
                         }
                         else
                         {
-                            await request.Body.CopyToAsync(response.Body);
+                            var responseBodyBytes = Encoding.UTF8.GetBytes(responseBody);
+                            await response.Body.WriteAsync(responseBodyBytes);
                         }
                     });
                 })

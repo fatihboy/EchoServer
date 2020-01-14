@@ -2,7 +2,10 @@
   "profiles": {
     "EchoServer": {
       "commandName": "Project",
-      "commandLineArgs": "--noHeader --response=deneme"
+      "environmentVariables": {
+        "REPLY_HEADERS": "true",
+        "RESPONSE_BODY": "Hello world!"
+      }
     },
     "Docker": {
       "commandName": "Docker"
