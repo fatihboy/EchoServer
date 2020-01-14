@@ -18,3 +18,9 @@ i.e:
 
     --response=HelloWorld
 
+Docker image can be found at https://hub.docker.com/repository/docker/fatihboy/echo-server
+
+Latest version can be pull with following command:
+
+    docker push fatihboy/echo-server:latest
+
